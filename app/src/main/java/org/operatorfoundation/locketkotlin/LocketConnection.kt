@@ -5,7 +5,7 @@ import java.io.File
 import java.io.FileWriter
 import java.net.Socket
 
-class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: Socket, logFileName: String)
+class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: Socket, logFileName: String): Socket()
 {
     private lateinit var locketDir: File
     private val logPath = File(locketDir, logFileName)
@@ -148,7 +148,7 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
         }
     }
 
-    fun close()
+    override fun close()
     {
         // FIXME: log the close
         writer.close()
