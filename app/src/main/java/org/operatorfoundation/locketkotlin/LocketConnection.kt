@@ -5,33 +5,28 @@ import java.io.File
 import java.io.FileWriter
 import java.net.Socket
 
-class LocketConnection(context: Context, var socket: Socket, accepting: Boolean = false, logFileName: String)
+class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: Socket, logFileName: String)
 {
-    private val locketDir = File(context.filesDir, "locket")
+    private lateinit var locketDir: File
     private val logPath = File(locketDir, logFileName)
     private val writer = FileWriter(logPath, true)
     private val output = socket.getOutputStream()
     private val input = socket.getInputStream()
 
-    init
-    {
-        if (!locketDir.isDirectory)
-        {
+    init {
+        if (context == null) {
+            requireNotNull (nonAppDirectory)
+            locketDir = File(nonAppDirectory)
+        } else {
+            locketDir = File(context.filesDir, "locket")
+        }
+
+        if (!locketDir.isDirectory) {
             locketDir.mkdir()
         }
 
-        if (!logPath.isFile)
-        {
+        if (!logPath.isFile) {
             logPath.createNewFile()
-        }
-
-        if (accepting)
-        {
-            this.log("accepting")
-        }
-        else
-        {
-            this.log("connecting")
         }
     }
 
@@ -122,18 +117,19 @@ class LocketConnection(context: Context, var socket: Socket, accepting: Boolean 
         }
     }
 
-    // TODO: do we want the write(Int)?
+    // TODO: do we want the write(Int)? (yes)
 
     fun write(b: ByteArray)
     {
         output.write(b)
         if (b.isEmpty())
         {
-            this.log("write(b: $b): no bytes to write")
+            this.log("write(b: null): no bytes to write")
         }
         else
         {
-            val writeString = b.toString()
+            val writeString = String(b, Charsets.UTF_8)
+            // TODO: Nil check this
             this.log("write(b: $writeString): ${b.size} - ${b.toHexString()}")
         }
     }
@@ -154,7 +150,7 @@ class LocketConnection(context: Context, var socket: Socket, accepting: Boolean 
 
     fun close()
     {
-        // FIXME: is closing our socket enough or should we close input and output as well?
+        // FIXME: log the close
         writer.close()
         socket.close()
     }
