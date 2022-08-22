@@ -5,10 +5,10 @@ import java.io.File
 import java.io.FileWriter
 import java.net.Socket
 
-class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: Socket, logFileName: String): Socket()
+open class LocketConnection(context: Context?, nonAppDirectory: String?, open var socket: Socket, logFileName: String): Socket()
 {
     private var locketDir: File
-    private var logPath: File
+    protected var logPath: File
     private var writer: FileWriter
     private val output = socket.getOutputStream()
     private val input = socket.getInputStream()

@@ -28,6 +28,6 @@ class LocketFactory(val context: Context?, val nonAppDirectory: String?, val fac
 
     override fun createSocket(): Socket {
         val socket = factory.createSocket()
-        return LocketConnection(context, nonAppDirectory, socket, logFileName)
+        return OKHttpLocketConnection(context, nonAppDirectory, socket, logFileName)
     }
 }
