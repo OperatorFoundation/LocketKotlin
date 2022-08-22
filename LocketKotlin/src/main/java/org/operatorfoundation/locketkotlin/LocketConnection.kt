@@ -42,7 +42,7 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
         val bytesRead = input.read(b)
         if (b.isNotEmpty())
         {
-            val resultString = b.toString()
+            val resultString = String(b, Charsets.UTF_8)
             this.log("read(b: $b): \"$resultString\" - $bytesRead - ${b.toHexString()}")
         }
         else
@@ -57,7 +57,7 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
         val bytesRead = input.read(b, off, len)
         if (b.isNotEmpty())
         {
-            val resultString = b.toString()
+            val resultString = String(b, Charsets.UTF_8)
             this.log("read(b: $b, off: $off, len: $len): \"$resultString\" - $bytesRead - ${b.toHexString()}")
         }
         else
@@ -72,7 +72,7 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
         val data = input.readBytes()
         return if (data.isNotEmpty())
         {
-            val resultString = data.toString()
+            val resultString = String(data, Charsets.UTF_8)
             this.log("readBytes(): \"$resultString\" - ${data.size} - ${data.toHexString()}")
             data
         }
@@ -106,7 +106,7 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
                 }
                 offset += bytesRead
             }
-            val resultString = buffer.toString()
+            val resultString = String(buffer, Charsets.UTF_8)
             this.log("readNBytes(numBytes: $numBytes): \"$resultString\" - ${buffer.size} - ${buffer.toHexString()}")
             return buffer
         }
@@ -143,7 +143,7 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
         }
         else
         {
-            val writeString = b.toString()
+            val writeString = String(b, Charsets.UTF_8)
             this.log("write(b: $writeString, off: $off, len: $len): ${b.size} - ${b.toHexString()}")
         }
     }
