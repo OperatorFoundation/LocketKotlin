@@ -7,9 +7,9 @@ import java.net.Socket
 
 class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: Socket, logFileName: String): Socket()
 {
-    private lateinit var locketDir: File
-    private val logPath = File(locketDir, logFileName)
-    private val writer = FileWriter(logPath, true)
+    private var locketDir: File
+    private var logPath: File
+    private var writer: FileWriter
     private val output = socket.getOutputStream()
     private val input = socket.getInputStream()
 
@@ -17,8 +17,12 @@ class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: 
         if (context == null) {
             requireNotNull (nonAppDirectory)
             locketDir = File(nonAppDirectory)
+            logPath = File(locketDir, logFileName)
+            writer = FileWriter(logPath, true)
         } else {
             locketDir = File(context.filesDir, "locket")
+            logPath = File(locketDir, logFileName)
+            writer = FileWriter(logPath, true)
         }
 
         if (!locketDir.isDirectory) {
