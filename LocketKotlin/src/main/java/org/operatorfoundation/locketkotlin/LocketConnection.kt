@@ -3,15 +3,17 @@ package org.operatorfoundation.locketkotlin
 import android.content.Context
 import java.io.File
 import java.io.FileWriter
+import java.io.InputStream
+import java.io.OutputStream
 import java.net.Socket
 
-open class LocketConnection(context: Context?, nonAppDirectory: String?, open var socket: Socket, logFileName: String): Socket()
+open class LocketConnection(context: Context?, nonAppDirectory: String?, var socket: Socket, logFileName: String): Socket()
 {
     private var locketDir: File
     protected var logPath: File
     private var writer: FileWriter
-    private val output = socket.getOutputStream()
-    private val input = socket.getInputStream()
+    private var output: OutputStream
+    private var input: InputStream
 
     init {
         if (context == null) {
@@ -32,6 +34,8 @@ open class LocketConnection(context: Context?, nonAppDirectory: String?, open va
         if (!logPath.isFile) {
             logPath.createNewFile()
         }
+        output = socket.getOutputStream()
+        input = socket.getInputStream()
     }
 
     fun read(): Int

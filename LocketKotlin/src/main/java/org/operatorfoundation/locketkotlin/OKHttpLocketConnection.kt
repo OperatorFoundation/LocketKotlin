@@ -4,7 +4,7 @@ import android.content.Context
 import java.net.Socket
 import java.net.SocketAddress
 
-class OKHttpLocketConnection(context: Context?, nonAppDirectory: String?, override var socket: Socket, logFileName: String) :
+class OKHttpLocketConnection(context: Context?, nonAppDirectory: String?, socket: Socket, logFileName: String) :
     LocketConnection(context, nonAppDirectory, socket, logFileName) {
 
     //@ExperimentalUnsignedTypes
