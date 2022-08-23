@@ -30,8 +30,8 @@ class LocketOutputStream(
         }
         else
         {
-            val writeString = String(b, Charsets.UTF_8).substring(0, b.size)
-            val hexString = b.toHexString().substring(0, b.size * 2)
+            val writeString = String(b, Charsets.UTF_8).substring(b.indices)
+            val hexString = b.toHexString().substring(0 until b.size * 2)
             locket.log("INFO", "write(b: ByteArray): $writeString - ${b.size} - $hexString")
         }
     }
@@ -45,9 +45,8 @@ class LocketOutputStream(
         }
         else
         {
-            val buffer = b.sliceArray(off until len)
-            val writeString = String(buffer, Charsets.UTF_8).substring(0, buffer.size)
-            val hexString = buffer.toHexString().substring(0, buffer.size * 2)
+            val writeString = String(b, Charsets.UTF_8).substring(off until len)
+            val hexString = b.toHexString().substring(off * 2 until len * 2)
             locket.log("INFO", "write(b: ByteArray, off: $off, len: $len): $writeString - ${b.size} - $hexString")
         }
     }
