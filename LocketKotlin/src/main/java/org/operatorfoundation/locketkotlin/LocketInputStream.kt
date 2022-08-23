@@ -23,12 +23,13 @@ class LocketInputStream(
         val bytesRead = input.read(b)
         if (b.isNotEmpty())
         {
-            val resultString = String(b, Charsets.UTF_8)
-            locket.log("INFO", "read(b: $b): \"$resultString\" - $bytesRead - ${b.toHexString()}")
+            val resultString = String(b, Charsets.UTF_8).substring(0, bytesRead)
+            val hexString = b.toHexString().substring(0, bytesRead * 2)
+            locket.log("INFO", "read(b: ByteArray): \"$resultString\" - $bytesRead - $hexString")
         }
         else
         {
-            locket.log("ERROR", "read(b: $b): null")
+            locket.log("ERROR", "read(b: ByteArray): read zero bytes")
         }
         return bytesRead
     }
@@ -38,12 +39,13 @@ class LocketInputStream(
         val bytesRead = input.read(b, off, len)
         if (b.isNotEmpty())
         {
-            val resultString = String(b, Charsets.UTF_8)
-            locket.log("INFO", "read(b: $b, off: $off, len: $len): \"$resultString\" - $bytesRead - ${b.toHexString()}")
+            val resultString = String(b, Charsets.UTF_8).substring(0, bytesRead)
+            val hexString = b.toHexString().substring(0, bytesRead * 2)
+            locket.log("INFO", "read(b: ByteArray, off: $off, len: $len): \"$resultString\" - $bytesRead - $hexString")
         }
         else
         {
-            locket.log("ERROR", "read(b: $b, off: $off, len: $len): null")
+            locket.log("ERROR", "read(b: ByteArray, off: $off, len: $len): read zero bytes")
         }
         return bytesRead
     }

@@ -26,12 +26,13 @@ class LocketOutputStream(
         output.write(b)
         if (b.isEmpty())
         {
-            locket.log("ERROR", "write(b: null): no bytes to write")
+            locket.log("ERROR", "write(b: ByteArray): no bytes to write")
         }
         else
         {
-            val writeString = String(b, Charsets.UTF_8)
-            locket.log("INFO", "write(b: $writeString): ${b.size} - ${b.toHexString()}")
+            val writeString = String(b, Charsets.UTF_8).substring(0, b.size)
+            val hexString = b.toHexString().substring(0, b.size * 2)
+            locket.log("INFO", "write(b: ByteArray): $writeString - ${b.size} - $hexString")
         }
     }
 
@@ -40,12 +41,13 @@ class LocketOutputStream(
         output.write(b, off, len)
         if (b.isEmpty())
         {
-            locket.log("ERROR", "write(b: null, off: $off, len: $len): no bytes to write")
+            locket.log("ERROR", "write(b: ByteArray, off: $off, len: $len): no bytes to write")
         }
         else
         {
-            val writeString = String(b, Charsets.UTF_8)
-            locket.log("INFO", "write(b: $writeString, off: $off, len: $len): ${b.size} - ${b.toHexString()}")
+            val writeString = String(b, Charsets.UTF_8).substring(off, len)
+            val hexString = b.toHexString().substring(off * 2        , len * 2)
+            locket.log("INFO", "write(b: ByteArray, off: $off, len: $len): $writeString - ${b.size} - $hexString")
         }
     }
 }
