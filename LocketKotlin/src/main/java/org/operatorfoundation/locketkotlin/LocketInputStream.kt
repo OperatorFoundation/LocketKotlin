@@ -23,8 +23,9 @@ class LocketInputStream(
         val bytesRead = input.read(b)
         if (b.isNotEmpty())
         {
-            val resultString = String(b, Charsets.UTF_8).substring(0, bytesRead)
-            val hexString = b.toHexString().substring(0, bytesRead * 2)
+            val slice = b.sliceArray(0 until bytesRead)
+            val resultString = String(slice, Charsets.UTF_8)
+            val hexString = slice.toHexString()
             locket.log("INFO", "read(b: ByteArray): \"$resultString\" - $bytesRead - $hexString")
         }
         else
@@ -39,8 +40,9 @@ class LocketInputStream(
         val bytesRead = input.read(b, off, len)
         if (b.isNotEmpty())
         {
-            val resultString = String(b, Charsets.UTF_8).substring(0, bytesRead)
-            val hexString = b.toHexString().substring(0, bytesRead * 2)
+            val slice = b.sliceArray(0 until bytesRead)
+            val resultString = String(slice, Charsets.UTF_8)
+            val hexString = slice.toHexString()
             locket.log("INFO", "read(b: ByteArray, off: $off, len: $len): \"$resultString\" - $bytesRead - $hexString")
         }
         else
