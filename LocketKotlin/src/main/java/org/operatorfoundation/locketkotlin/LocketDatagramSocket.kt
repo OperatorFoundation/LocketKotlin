@@ -21,20 +21,25 @@ class LocketDatagramSocket(context: Context?, logDir: String?, var datagramSocke
         if (context == null) {
             requireNotNull (logDir)
             locketDir = File(logDir)
+            if (!locketDir.isDirectory) {
+                locketDir.mkdir()
+            }
+
             logPath = File(locketDir, "locket.log")
+            if (!logPath.isFile) {
+                logPath.createNewFile()
+            }
+
             writer = FileWriter(logPath, true)
         } else {
-            locketDir = File(context.filesDir, "locket")
+            locketDir = context.filesDir
             logPath = File(locketDir, "locket.log")
+
+            if (!logPath.isFile) {
+                logPath.createNewFile()
+            }
+
             writer = FileWriter(logPath, true)
-        }
-
-        if (!locketDir.isDirectory) {
-            locketDir.mkdir()
-        }
-
-        if (!logPath.isFile) {
-            logPath.createNewFile()
         }
     }
 
